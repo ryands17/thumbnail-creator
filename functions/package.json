@@ -1,0 +1,16 @@
+{
+  "name": "functions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Ryan",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.72",
+    "aws-lambda": "^1.0.6"
+  }
+}
