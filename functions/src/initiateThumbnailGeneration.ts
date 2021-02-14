@@ -5,11 +5,9 @@ import { envs } from './config'
 const ecs = new ECS()
 
 export const handler = async (event: S3Event) => {
-  console.log(JSON.stringify(event.Records[0], null, 2))
   const { bucket, object } = event.Records[0].s3
-
-  let videoURL = `https://s3.amazonaws.com/${bucket.name}/${object.key}`
-  let thumbnailName = `${object.key}.png`
+  let videoURL = `s3://${bucket.name}/${object.key}`
+  let thumbnailName = `${object.key.replace('videos/', '')}.png`
   let framePosition = '01:32'
 
   await generateThumbnail({
@@ -34,8 +32,10 @@ const generateThumbnail = async ({
       awsvpcConfiguration: {
         assignPublicIp: 'ENABLED',
         subnets: envs.VPC_SUBNETS,
+        securityGroups: [envs.VPC_SECURITY_GROUP],
       },
     },
+    launchType: 'FARGATE',
     overrides: {
       containerOverrides: [
         {
@@ -61,7 +61,9 @@ const generateThumbnail = async ({
       )}`
     )
   } catch (error) {
-    console.log(`Error processing ECS Task ${params.taskDefinition}: ${error}`)
+    console.error(
+      `Error processing ECS Task ${params.taskDefinition}: ${error}`
+    )
   }
 }
 

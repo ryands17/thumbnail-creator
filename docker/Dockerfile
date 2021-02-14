@@ -12,4 +12,4 @@ WORKDIR /files
 
 COPY ./copy_thumbs.sh /files
 
-ENTRYPOINT ffmpeg -i ${INPUT_VIDEO_FILE_URL} -ss ${POSITION_TIME_DURATION} -vframes 1 -vcodec png -an -y ${OUTPUT_THUMBS_FILE_NAME} && ./copy_thumbs.sh
+ENTRYPOINT ./copy_thumbs.sh

@@ -49,10 +49,12 @@ export class ThumbnailCreatorStack extends cdk.Stack {
       'GenerateThumbnail',
       { memoryLimitMiB: 512, cpu: 256 }
     )
-    imagesBucket.grantWrite(taskDefinition.taskRole)
+    imagesBucket.grantReadWrite(taskDefinition.taskRole)
 
     taskDefinition.addContainer('ffmpeg', {
-      image: ecs.ContainerImage.fromRegistry('ryands1701/thumbnail-creator'),
+      image: ecs.ContainerImage.fromRegistry(
+        'ryands1701/thumbnail-creator:1.0.0'
+      ),
       logging: new ecs.AwsLogDriver({
         streamPrefix: 'FargateGenerateThumbnail',
         logRetention: RetentionDays.ONE_WEEK,
@@ -76,6 +78,7 @@ export class ThumbnailCreatorStack extends cdk.Stack {
           ECS_CLUSTER_NAME: cluster.clusterName,
           ECS_TASK_DEFINITION: taskDefinition.taskDefinitionArn,
           VPC_SUBNETS: vpc.publicSubnets.map(s => s.subnetId).join(','),
+          VPC_SECURITY_GROUP: vpc.vpcDefaultSecurityGroup,
         },
       }
     )
@@ -85,6 +88,17 @@ export class ThumbnailCreatorStack extends cdk.Stack {
         effect: iam.Effect.ALLOW,
         actions: ['ecs:RunTask'],
         resources: [taskDefinition.taskDefinitionArn],
+      })
+    )
+    initiateThumbnailGeneration.addToRolePolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ['iam:Passrole'],
+        resources: [
+          // `arn:aws:iam::${this.account}:role/ecsTaskExecutionRole`,
+          taskDefinition.taskRole.roleArn,
+          taskDefinition.executionRole?.roleArn || '',
+        ],
       })
     )
 
