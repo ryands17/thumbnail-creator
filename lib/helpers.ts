@@ -5,10 +5,9 @@ import * as ln from '@aws-cdk/aws-lambda-nodejs'
 
 const lambdaDir = join(__dirname, '..', 'functions')
 
-export const lockfilePath = join(lambdaDir, 'yarn.lock')
+const lockfilePath = join(lambdaDir, 'yarn.lock')
 
-export const handlerPath = (...paths: string[]) =>
-  join(lambdaDir, 'src', ...paths)
+const handlerPath = (...paths: string[]) => join(lambdaDir, 'src', ...paths)
 
 export const createLambdaFn = (
   scope: Construct,

@@ -2,6 +2,7 @@ import * as cdk from '@aws-cdk/core'
 import * as s3 from '@aws-cdk/aws-s3'
 import * as ec2 from '@aws-cdk/aws-ec2'
 import * as ecs from '@aws-cdk/aws-ecs'
+import * as iam from '@aws-cdk/aws-iam'
 import * as s3Notif from '@aws-cdk/aws-s3-notifications'
 import { RetentionDays } from '@aws-cdk/aws-logs'
 import { createLambdaFn } from './helpers'
@@ -35,11 +36,10 @@ export class ThumbnailCreatorStack extends cdk.Stack {
     })
 
     // The ECS Cluster for Fargate tasks
-    new ecs.Cluster(this, 'FargateCluster', { vpc })
+    const cluster = new ecs.Cluster(this, 'FargateCluster', { vpc })
 
     // S3 bucket that holds videos and their respective thumbnails
     const imagesBucket = new s3.Bucket(this, bucketName, {
-      bucketName,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     })
 
@@ -49,7 +49,7 @@ export class ThumbnailCreatorStack extends cdk.Stack {
       'GenerateThumbnail',
       { memoryLimitMiB: 512, cpu: 256 }
     )
-    imagesBucket.grantReadWrite(taskDefinition.taskRole)
+    imagesBucket.grantWrite(taskDefinition.taskRole)
 
     taskDefinition.addContainer('ffmpeg', {
       image: ecs.ContainerImage.fromRegistry('ryands1701/thumbnail-creator'),
@@ -70,10 +70,25 @@ export class ThumbnailCreatorStack extends cdk.Stack {
     const initiateThumbnailGeneration = createLambdaFn(
       this,
       'initiateThumbnailGeneration',
-      { reservedConcurrentExecutions: 10 }
+      {
+        reservedConcurrentExecutions: 10,
+        environment: {
+          ECS_CLUSTER_NAME: cluster.clusterName,
+          ECS_TASK_DEFINITION: taskDefinition.taskDefinitionArn,
+          VPC_SUBNETS: vpc.publicSubnets.map(s => s.subnetId).join(','),
+        },
+      }
     )
 
-    // Fire the lambda on a video uploaded to the `videos` folder/prefix
+    initiateThumbnailGeneration.addToRolePolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ['ecs:RunTask'],
+        resources: [taskDefinition.taskDefinitionArn],
+      })
+    )
+
+    // Fire the lambda on a video(.mp4) uploaded to the `videos` folder/prefix
     imagesBucket.addObjectCreatedNotification(
       new s3Notif.LambdaDestination(initiateThumbnailGeneration),
       { prefix, suffix: '.mp4' }

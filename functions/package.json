@@ -11,6 +11,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/aws-lambda": "^8.10.72",
-    "aws-lambda": "^1.0.6"
+    "aws-lambda": "^1.0.6",
+    "aws-sdk": "2.843.0"
   }
 }
