@@ -5,7 +5,7 @@ import { envs } from './config'
 const ecs = new ECS()
 
 export const handler = async (event: S3Event) => {
-  const { bucket, object } = event.Records[0].s3
+  let { bucket, object } = event.Records[0].s3
   let videoURL = `s3://${bucket.name}/${object.key}`
   let thumbnailName = `${object.key.replace('videos/', '')}.png`
   let framePosition = '01:32'
