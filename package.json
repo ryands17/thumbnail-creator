@@ -1,6 +1,7 @@
 {
   "name": "thumbnail-creator",
   "version": "0.1.0",
+  "private": true,
   "bin": {
     "thumbnail-creator": "bin/thumbnail-creator.js"
   },

@@ -95,7 +95,6 @@ export class ThumbnailCreatorStack extends cdk.Stack {
         effect: iam.Effect.ALLOW,
         actions: ['iam:Passrole'],
         resources: [
-          // `arn:aws:iam::${this.account}:role/ecsTaskExecutionRole`,
           taskDefinition.taskRole.roleArn,
           taskDefinition.executionRole?.roleArn || '',
         ],
