@@ -1,4 +1,4 @@
-FROM jrottenberg/ffmpeg:4.1-ubuntu
+FROM jrottenberg/ffmpeg:4.3-ubuntu
 
 RUN apt-get update && \
   apt-get install -y curl unzip && \
