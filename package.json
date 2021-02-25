@@ -13,11 +13,14 @@
   },
   "devDependencies": {
     "@arkweid/lefthook": "0.7.2",
-    "@aws-cdk/assert": "1.90.1",
+    "@aws-cdk/assert": "1.91.0",
+    "@types/aws-lambda": "8.10.72",
     "@types/jest": "26.0.20",
     "@types/node": "14.14.31",
-    "aws-cdk": "1.90.1",
-    "esbuild": "0.8.49",
+    "aws-cdk": "1.91.0",
+    "aws-lambda": "1.0.6",
+    "aws-sdk": "2.851.0",
+    "esbuild": "0.8.52",
     "jest": "26.6.3",
     "prettier": "2.2.1",
     "ts-jest": "26.5.1",
@@ -25,13 +28,13 @@
     "typescript": "4.1.5"
   },
   "dependencies": {
-    "@aws-cdk/aws-ec2": "1.90.1",
-    "@aws-cdk/aws-ecs": "1.90.1",
-    "@aws-cdk/aws-lambda": "1.90.1",
-    "@aws-cdk/aws-lambda-nodejs": "1.90.1",
-    "@aws-cdk/aws-s3": "1.90.1",
-    "@aws-cdk/aws-s3-notifications": "1.90.1",
-    "@aws-cdk/core": "1.90.1",
+    "@aws-cdk/aws-ec2": "1.91.0",
+    "@aws-cdk/aws-ecs": "1.91.0",
+    "@aws-cdk/aws-lambda": "1.91.0",
+    "@aws-cdk/aws-lambda-nodejs": "1.91.0",
+    "@aws-cdk/aws-s3": "1.91.0",
+    "@aws-cdk/aws-s3-notifications": "1.91.0",
+    "@aws-cdk/core": "1.91.0",
     "source-map-support": "0.5.19"
   },
   "prettier": {

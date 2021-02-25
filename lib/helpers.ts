@@ -3,11 +3,8 @@ import { Construct } from '@aws-cdk/core'
 import { RetentionDays } from '@aws-cdk/aws-logs'
 import * as ln from '@aws-cdk/aws-lambda-nodejs'
 
-const lambdaDir = join(__dirname, '..', 'functions')
-
-const lockfilePath = join(lambdaDir, 'yarn.lock')
-
-const handlerPath = (...paths: string[]) => join(lambdaDir, 'src', ...paths)
+const handlerPath = (...paths: string[]) =>
+  join(__dirname, '..', 'functions', ...paths)
 
 export const createLambdaFn = (
   scope: Construct,
@@ -19,7 +16,6 @@ export const createLambdaFn = (
     logRetention: RetentionDays.ONE_WEEK,
     handler: 'handler',
     entry: handlerPath(`${id}.ts`),
-    depsLockFilePath: lockfilePath,
     bundling: {
       sourceMap: true,
     },
