@@ -7,9 +7,6 @@ import * as s3Notif from '@aws-cdk/aws-s3-notifications'
 import { RetentionDays } from '@aws-cdk/aws-logs'
 import { createLambdaFn } from './helpers'
 
-const bucketName = 'multimedia-app-store'
-const prefix = 'videos/'
-
 export class ThumbnailCreatorStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props)
@@ -39,8 +36,9 @@ export class ThumbnailCreatorStack extends cdk.Stack {
     const cluster = new ecs.Cluster(this, 'FargateCluster', { vpc })
 
     // S3 bucket that holds videos and their respective thumbnails
-    const imagesBucket = new s3.Bucket(this, bucketName, {
+    const imagesBucket = new s3.Bucket(this, 'multimedia-app-store', {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
     })
 
     // Task definition for the Fargate task to generate a thumbnail
@@ -104,7 +102,7 @@ export class ThumbnailCreatorStack extends cdk.Stack {
     // Fire the lambda on a video(.mp4) uploaded to the `videos` folder/prefix
     imagesBucket.addObjectCreatedNotification(
       new s3Notif.LambdaDestination(initiateThumbnailGeneration),
-      { prefix, suffix: '.mp4' }
+      { prefix: 'videos/', suffix: '.mp4' }
     )
   }
 }

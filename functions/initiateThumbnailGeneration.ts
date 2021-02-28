@@ -41,7 +41,6 @@ const generateThumbnail = async ({
         {
           name: 'ffmpeg',
           environment: [
-            { name: 'AWS_REGION', value: envs.AWS_REGION },
             { name: 'INPUT_VIDEO_FILE_URL', value: videoURL },
             { name: 'OUTPUT_THUMBS_FILE_NAME', value: thumbnailName },
             { name: 'POSITION_TIME_DURATION', value: framePosition },
