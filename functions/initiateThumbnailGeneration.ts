@@ -6,7 +6,9 @@ const ecs = new ECS()
 
 export const handler = async (event: S3Event) => {
   let { bucket, object } = event.Records[0].s3
-  let videoURL = `s3://${bucket.name}/${object.key}`
+  let videoURL = `s3://${bucket.name}/${decodeURIComponent(
+    object.key.replace(/\+/g, ' ')
+  )}`
   let thumbnailName = `${object.key.replace('videos/', '')}.png`
   let framePosition = '01:32'
 
