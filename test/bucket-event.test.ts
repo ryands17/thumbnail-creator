@@ -27,11 +27,7 @@ test('Lambda and the corresponding S3 event are created', () => {
   expectCDK(stack).to(
     haveResourceLike('AWS::Lambda::Function', {
       Code: {},
-      Environment: {},
       Role: {},
-      FunctionName: 'initiateThumbnailGeneration',
-      Handler: 'index.handler',
-      ReservedConcurrentExecutions: 10,
       Runtime: 'nodejs12.x',
     })
   )

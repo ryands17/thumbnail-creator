@@ -12,7 +12,6 @@ export const createLambdaFn = (
   props?: ln.NodejsFunctionProps
 ) => {
   return new ln.NodejsFunction(scope, id, {
-    functionName: id,
     logRetention: RetentionDays.ONE_WEEK,
     handler: 'handler',
     entry: handlerPath(`${id}.ts`),
