@@ -14,7 +14,7 @@
   "devDependencies": {
     "@arkweid/lefthook": "0.7.7",
     "@aws-cdk/assert": "1.143.0",
-    "@types/aws-lambda": "8.10.92",
+    "@types/aws-lambda": "8.10.93",
     "@types/jest": "27.4.0",
     "@types/node": "16.11.22",
     "aws-cdk": "1.143.0",
