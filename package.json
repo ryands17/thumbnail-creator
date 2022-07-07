@@ -20,7 +20,7 @@
     "aws-cdk": "1.159.0",
     "aws-lambda": "1.0.7",
     "aws-sdk": "2.1150.0",
-    "esbuild": "0.14.42",
+    "esbuild": "0.14.48",
     "jest": "27.5.1",
     "prettier": "2.6.2",
     "ts-jest": "27.1.5",
