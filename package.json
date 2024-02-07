@@ -19,7 +19,7 @@
     "@types/node": "16.18.79",
     "aws-cdk": "1.159.0",
     "aws-lambda": "1.0.7",
-    "aws-sdk": "2.1531.0",
+    "aws-sdk": "2.1552.0",
     "esbuild": "0.19.11",
     "jest": "27.5.1",
     "prettier": "2.8.8",
